@@ -95,6 +95,66 @@ function drawAmbient(ctx: CanvasRenderingContext2D, s: GameState, b: Biome) {
       ctx.arc(GAME_WIDTH - 98, 62, 8, 0, Math.PI * 2);
       ctx.fill();
       break;
+    case "bubbles":
+      ctx.fillStyle = "rgba(255,255,255,0.5)";
+      for (let i = 0; i < 25; i++) {
+        const x = (i * 71 + s.time * 0.5) % GAME_WIDTH;
+        const y = (GROUND_Y - ((i * 53 + s.time * 1.5) % GROUND_Y));
+        ctx.beginPath();
+        ctx.arc(x, y, 2 + (i % 3), 0, Math.PI * 2);
+        ctx.fill();
+      }
+      // sun rays through water
+      ctx.fillStyle = "rgba(255,255,255,0.08)";
+      for (let i = 0; i < 6; i++) ctx.fillRect(i * 120 + 20, 0, 40, GROUND_Y);
+      break;
+    case "ember":
+      ctx.fillStyle = "#ffb24a";
+      for (let i = 0; i < 30; i++) {
+        const x = (i * 89 + s.time * 0.8) % GAME_WIDTH;
+        const y = GROUND_Y - ((i * 41 + s.time * 2.5) % GROUND_Y);
+        ctx.globalAlpha = 0.4 + ((i % 5) * 0.1);
+        ctx.fillRect(x, y, 2, 2);
+      }
+      ctx.globalAlpha = 1;
+      // red sun
+      ctx.fillStyle = "#ff3a1a";
+      ctx.beginPath();
+      ctx.arc(GAME_WIDTH - 90, 60, 24, 0, Math.PI * 2);
+      ctx.fill();
+      break;
+    case "aurora":
+      for (let i = 0; i < 4; i++) {
+        const grad = ctx.createLinearGradient(0, 0, GAME_WIDTH, 0);
+        const hue = (s.time * 0.3 + i * 60) % 360;
+        grad.addColorStop(0, `hsla(${hue}, 80%, 60%, 0)`);
+        grad.addColorStop(0.5, `hsla(${hue}, 80%, 60%, 0.25)`);
+        grad.addColorStop(1, `hsla(${hue}, 80%, 60%, 0)`);
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 20 + i * 20, GAME_WIDTH, 30);
+      }
+      // crystals shimmer
+      ctx.fillStyle = "#ffffff";
+      for (let i = 0; i < 30; i++) {
+        const x = (i * 97) % GAME_WIDTH;
+        const y = (i * 41) % (GROUND_Y - 30);
+        ctx.globalAlpha = (Math.sin(s.time * 0.08 + i) + 1) * 0.4;
+        ctx.fillRect(x, y, 1, 1);
+      }
+      ctx.globalAlpha = 1;
+      break;
+    case "spores":
+      ctx.fillStyle = "#e0ff9a";
+      for (let i = 0; i < 35; i++) {
+        const x = (i * 67 + s.time * 0.4) % GAME_WIDTH;
+        const y = (i * 31 + s.time * 0.8) % GROUND_Y;
+        ctx.globalAlpha = 0.5;
+        ctx.beginPath();
+        ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      break;
   }
 }
 
