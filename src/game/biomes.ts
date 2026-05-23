@@ -193,7 +193,7 @@ export const BIOMES: Biome[] = [
 const POINTS_PER_BIOME = 150;
 
 export function biomeForScore(score: number) {
-  const idx = Math.min(BIOMES.length - 1, Math.floor(score / 200));
+  const idx = Math.min(BIOMES.length - 1, Math.floor(score / POINTS_PER_BIOME));
   return { index: idx, biome: BIOMES[idx] };
 }
 
