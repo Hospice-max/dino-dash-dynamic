@@ -10,10 +10,30 @@ export type Biome = {
   // background mountains/hills colors (far, near)
   bgFar: string;
   bgNear: string;
-  // decor sprites: 'cactus' | 'tree' | 'pine' | 'duneCactus' | 'silhouette' | 'crater'
-  obstacleType: "cactus" | "tree" | "pine" | "duneCactus" | "silhouette" | "crater";
-  // background extra: 'sun' | 'clouds' | 'snow' | 'sunset' | 'stars' | 'space'
-  ambient: "sun" | "clouds" | "snow" | "sunset" | "stars" | "space";
+  // decor sprites
+  obstacleType:
+    | "cactus"
+    | "tree"
+    | "pine"
+    | "duneCactus"
+    | "silhouette"
+    | "crater"
+    | "coral"
+    | "lava"
+    | "crystal"
+    | "mushroom";
+  // background extras
+  ambient:
+    | "sun"
+    | "clouds"
+    | "snow"
+    | "sunset"
+    | "stars"
+    | "space"
+    | "bubbles"
+    | "ember"
+    | "aurora"
+    | "spores";
   gravityScale: number;
 };
 
@@ -108,10 +128,72 @@ export const BIOMES: Biome[] = [
     ambient: "space",
     gravityScale: 0.7,
   },
+  {
+    name: "Récif sous-marin",
+    skyTop: "#0a4a6e",
+    skyBottom: "#3aa0c4",
+    ground: "#d9c089",
+    groundLine: "#a88a5a",
+    dino: "#1f3a4a",
+    obstacle: "#d94f7a",
+    bird: "#f0b54a",
+    bgFar: "#1b6e8c",
+    bgNear: "#2a93b0",
+    obstacleType: "coral",
+    ambient: "bubbles",
+    gravityScale: 0.85,
+  },
+  {
+    name: "Volcan",
+    skyTop: "#2a0a10",
+    skyBottom: "#7a1f1a",
+    ground: "#1a0f0a",
+    groundLine: "#4a1f10",
+    dino: "#f0d09a",
+    obstacle: "#ff5a1f",
+    bird: "#3a1a14",
+    bgFar: "#3a0f12",
+    bgNear: "#5a1a18",
+    obstacleType: "lava",
+    ambient: "ember",
+    gravityScale: 1.1,
+  },
+  {
+    name: "Grotte de cristal",
+    skyTop: "#1a0a3a",
+    skyBottom: "#3a1a6a",
+    ground: "#2a1a4a",
+    groundLine: "#5a3a8a",
+    dino: "#dcd0ff",
+    obstacle: "#9ae6ff",
+    bird: "#ff9ae6",
+    bgFar: "#2a154f",
+    bgNear: "#4a2a7a",
+    obstacleType: "crystal",
+    ambient: "aurora",
+    gravityScale: 1,
+  },
+  {
+    name: "Forêt fongique",
+    skyTop: "#1a2a1a",
+    skyBottom: "#3a5a3a",
+    ground: "#2a3a24",
+    groundLine: "#5a6a44",
+    dino: "#f0e8c0",
+    obstacle: "#e84a8a",
+    bird: "#9ae64a",
+    bgFar: "#2a4a2a",
+    bgNear: "#3a6a3a",
+    obstacleType: "mushroom",
+    ambient: "spores",
+    gravityScale: 0.9,
+  },
 ];
 
+const POINTS_PER_BIOME = 150;
+
 export function biomeForScore(score: number) {
-  const idx = Math.min(BIOMES.length - 1, Math.floor(score / 200));
+  const idx = Math.min(BIOMES.length - 1, Math.floor(score / POINTS_PER_BIOME));
   return { index: idx, biome: BIOMES[idx] };
 }
 
