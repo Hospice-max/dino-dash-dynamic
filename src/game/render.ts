@@ -283,6 +283,69 @@ function drawGroundObstacle(ctx: CanvasRenderingContext2D, x: number, y: number,
       ctx.fill();
       break;
     }
+    case "coral": {
+      ctx.fillStyle = b.obstacle;
+      ctx.beginPath();
+      ctx.moveTo(x + w / 2, y + h);
+      ctx.lineTo(x + w / 2, y + h * 0.2);
+      ctx.lineTo(x + w * 0.2, y);
+      ctx.moveTo(x + w / 2, y + h * 0.5);
+      ctx.lineTo(x + w * 0.8, y + h * 0.1);
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = b.obstacle;
+      ctx.stroke();
+      ctx.fillRect(x + w / 2 - 3, y + h * 0.2, 6, h * 0.8);
+      break;
+    }
+    case "lava": {
+      ctx.fillStyle = "#3a1a10";
+      ctx.fillRect(x, y + h * 0.6, w, h * 0.4);
+      ctx.fillStyle = b.obstacle;
+      ctx.beginPath();
+      ctx.moveTo(x, y + h * 0.7);
+      ctx.lineTo(x + w * 0.25, y + h * 0.3);
+      ctx.lineTo(x + w * 0.5, y + h * 0.5);
+      ctx.lineTo(x + w * 0.75, y + h * 0.2);
+      ctx.lineTo(x + w, y + h * 0.6);
+      ctx.lineTo(x + w, y + h);
+      ctx.lineTo(x, y + h);
+      ctx.closePath();
+      ctx.fill();
+      break;
+    }
+    case "crystal": {
+      ctx.fillStyle = b.obstacle;
+      ctx.beginPath();
+      ctx.moveTo(x + w / 2, y);
+      ctx.lineTo(x + w, y + h * 0.4);
+      ctx.lineTo(x + w * 0.7, y + h);
+      ctx.lineTo(x + w * 0.3, y + h);
+      ctx.lineTo(x, y + h * 0.4);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = "rgba(255,255,255,0.4)";
+      ctx.beginPath();
+      ctx.moveTo(x + w / 2, y);
+      ctx.lineTo(x + w * 0.6, y + h * 0.5);
+      ctx.lineTo(x + w * 0.45, y + h);
+      ctx.closePath();
+      ctx.fill();
+      break;
+    }
+    case "mushroom": {
+      ctx.fillStyle = "#f0e8c0";
+      ctx.fillRect(x + w / 2 - 3, y + h * 0.4, 6, h * 0.6);
+      ctx.fillStyle = b.obstacle;
+      ctx.beginPath();
+      ctx.ellipse(x + w / 2, y + h * 0.35, w * 0.6, h * 0.35, 0, Math.PI, 0);
+      ctx.fill();
+      ctx.fillStyle = "rgba(255,255,255,0.7)";
+      ctx.beginPath();
+      ctx.arc(x + w * 0.4, y + h * 0.25, 2, 0, Math.PI * 2);
+      ctx.arc(x + w * 0.65, y + h * 0.3, 2.5, 0, Math.PI * 2);
+      ctx.fill();
+      break;
+    }
   }
 }
 
