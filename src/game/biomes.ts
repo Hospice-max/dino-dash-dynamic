@@ -10,10 +10,30 @@ export type Biome = {
   // background mountains/hills colors (far, near)
   bgFar: string;
   bgNear: string;
-  // decor sprites: 'cactus' | 'tree' | 'pine' | 'duneCactus' | 'silhouette' | 'crater'
-  obstacleType: "cactus" | "tree" | "pine" | "duneCactus" | "silhouette" | "crater";
-  // background extra: 'sun' | 'clouds' | 'snow' | 'sunset' | 'stars' | 'space'
-  ambient: "sun" | "clouds" | "snow" | "sunset" | "stars" | "space";
+  // decor sprites
+  obstacleType:
+    | "cactus"
+    | "tree"
+    | "pine"
+    | "duneCactus"
+    | "silhouette"
+    | "crater"
+    | "coral"
+    | "lava"
+    | "crystal"
+    | "mushroom";
+  // background extras
+  ambient:
+    | "sun"
+    | "clouds"
+    | "snow"
+    | "sunset"
+    | "stars"
+    | "space"
+    | "bubbles"
+    | "ember"
+    | "aurora"
+    | "spores";
   gravityScale: number;
 };
 
