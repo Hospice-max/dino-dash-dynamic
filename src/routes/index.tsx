@@ -23,24 +23,24 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <main className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center px-4 py-8 gap-6">
+    <main className="min-h-[100dvh] bg-background text-foreground flex flex-col items-center justify-start md:justify-center px-3 sm:px-4 py-4 sm:py-8 gap-4 sm:gap-6">
       <header className="text-center max-w-2xl">
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight">Dino Run</h1>
-        <p className="mt-3 text-muted-foreground">
-          Le dino court à travers six paysages — désert, forêt, neige, coucher de soleil, nuit étoilée
-          et surface lunaire. Tous les 200 points, le décor change.
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">Dino Run</h1>
+        <p className="mt-2 sm:mt-3 text-sm sm:text-base text-muted-foreground">
+          Traverse 10 paysages — désert, forêt, neige, coucher de soleil, nuit, lune, récif, volcan,
+          cristal et forêt fongique. Tous les 150 points, le décor change.
         </p>
       </header>
 
       <DinoGame />
 
-      <section className="text-sm text-muted-foreground text-center max-w-xl">
-        <p>
+      <section className="text-xs sm:text-sm text-muted-foreground text-center max-w-xl">
+        <p className="hidden md:block">
           <kbd className="px-2 py-1 rounded border border-border bg-muted">Espace</kbd> ou{" "}
           <kbd className="px-2 py-1 rounded border border-border bg-muted">↑</kbd> pour sauter ·{" "}
-          <kbd className="px-2 py-1 rounded border border-border bg-muted">↓</kbd> pour s'accroupir ·
-          tape l'écran sur mobile.
+          <kbd className="px-2 py-1 rounded border border-border bg-muted">↓</kbd> pour s'accroupir.
         </p>
+        <p className="md:hidden">Utilise les boutons ci-dessous, ou tape l'écran pour sauter.</p>
       </section>
     </main>
   );
