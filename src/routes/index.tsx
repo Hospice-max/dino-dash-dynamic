@@ -40,7 +40,7 @@ function Index() {
           <kbd className="px-2 py-1 rounded border border-border bg-muted">↑</kbd> pour sauter ·{" "}
           <kbd className="px-2 py-1 rounded border border-border bg-muted">↓</kbd> pour s'accroupir.
         </p>
-        <p className="md:hidden">Utilise les boutons ci-dessous, ou tape l'écran pour sauter.</p>
+        
       </section>
     </main>
   );
