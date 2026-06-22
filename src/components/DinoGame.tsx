@@ -187,19 +187,39 @@ export default function DinoGame() {
     <div className="w-full flex flex-col items-center gap-3">
       <div
         ref={wrapRef}
-        className="relative rounded-lg overflow-hidden border border-border shadow-lg bg-background touch-none select-none"
-        style={{ width: boxSize.w, height: boxSize.h }}
+        className={
+          fullscreen
+            ? "relative overflow-hidden bg-background touch-none select-none flex items-center justify-center w-screen h-[100dvh]"
+            : "relative rounded-lg overflow-hidden border border-border shadow-lg bg-background touch-none select-none"
+        }
+        style={fullscreen ? undefined : { width: boxSize.w, height: boxSize.h }}
       >
         <canvas
           ref={canvasRef}
           width={GAME_WIDTH}
           height={GAME_HEIGHT}
-          className="block w-full h-full"
-          style={{ imageRendering: "pixelated" }}
+          className="block"
+          style={{ imageRendering: "pixelated", width: boxSize.w, height: boxSize.h }}
         />
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleFullscreen();
+          }}
+          onTouchEnd={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            toggleFullscreen();
+          }}
+          aria-label={fullscreen ? "Quitter le plein écran" : "Plein écran"}
+          className="absolute top-2 right-2 z-10 rounded-md bg-black/50 text-white text-xs px-3 py-1.5 backdrop-blur hover:bg-black/70"
+        >
+          {fullscreen ? "✕ Quitter" : "⛶ Plein écran"}
+        </button>
       </div>
 
-      {isMobile && (
+      {isMobile && !fullscreen && (
         <p className="text-sm text-center text-muted-foreground px-4">
           👆 Tape pour sauter · ⬇️ Glisse vers le bas pour t'accroupir
         </p>
