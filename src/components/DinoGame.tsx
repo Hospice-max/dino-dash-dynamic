@@ -23,9 +23,9 @@ export default function DinoGame() {
       setIsMobile(mobile);
 
       if (mobile) {
-        // Mobile = fullscreen-ish, fit width, cap by height with room for header/hint.
-        const availW = vw - 16;
-        const availH = vh - 180;
+        // Mobile = use the full viewport width, cap height generously.
+        const availW = vw;
+        const availH = vh - 140;
         let w = availW;
         let h = w / ASPECT;
         if (h > availH) {
