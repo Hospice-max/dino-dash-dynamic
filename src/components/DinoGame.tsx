@@ -12,6 +12,7 @@ export default function DinoGame() {
   const stateRef = useRef(createState(0));
   const [, setTick] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [fullscreen, setFullscreen] = useState(false);
   const [boxSize, setBoxSize] = useState<{ w: number; h: number }>({ w: GAME_WIDTH, h: GAME_HEIGHT });
 
   // Responsive sizing: fit canvas into available viewport while preserving aspect ratio.
@@ -22,8 +23,16 @@ export default function DinoGame() {
       const mobile = vw < 768;
       setIsMobile(mobile);
 
-      if (mobile) {
-        // Mobile = use the full viewport width, cap height generously.
+      if (fullscreen) {
+        // Fill the entire viewport, preserve aspect ratio.
+        let w = vw;
+        let h = w / ASPECT;
+        if (h > vh) {
+          h = vh;
+          w = h * ASPECT;
+        }
+        setBoxSize({ w, h });
+      } else if (mobile) {
         const availW = vw;
         const availH = vh - 140;
         let w = availW;
@@ -34,7 +43,6 @@ export default function DinoGame() {
         }
         setBoxSize({ w, h });
       } else {
-        // Desktop: scale up to fit, max native size.
         const availW = Math.min(vw - 64, 1200);
         const availH = vh - 260;
         let w = Math.min(availW, GAME_WIDTH * 1.4);
@@ -53,7 +61,31 @@ export default function DinoGame() {
       window.removeEventListener("resize", compute);
       window.removeEventListener("orientationchange", compute);
     };
+  }, [fullscreen]);
+
+  // Sync with native browser fullscreen state (handles ESC / system gestures).
+  useEffect(() => {
+    const onFsChange = () => {
+      if (!document.fullscreenElement) setFullscreen(false);
+    };
+    document.addEventListener("fullscreenchange", onFsChange);
+    return () => document.removeEventListener("fullscreenchange", onFsChange);
   }, []);
+
+  const toggleFullscreen = async () => {
+    try {
+      if (!fullscreen) {
+        await wrapRef.current?.requestFullscreen?.();
+        setFullscreen(true);
+      } else {
+        if (document.fullscreenElement) await document.exitFullscreen();
+        setFullscreen(false);
+      }
+    } catch {
+      // Fallback: CSS-only fullscreen if the API is unavailable.
+      setFullscreen((v) => !v);
+    }
+  };
 
   useEffect(() => {
     const best = Number(localStorage.getItem(BEST_KEY) || 0);
