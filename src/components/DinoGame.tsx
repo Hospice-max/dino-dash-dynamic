@@ -12,6 +12,7 @@ export default function DinoGame() {
   const stateRef = useRef(createState(0));
   const [, setTick] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [fullscreen, setFullscreen] = useState(false);
   const [boxSize, setBoxSize] = useState<{ w: number; h: number }>({ w: GAME_WIDTH, h: GAME_HEIGHT });
 
   // Responsive sizing: fit canvas into available viewport while preserving aspect ratio.
@@ -22,8 +23,16 @@ export default function DinoGame() {
       const mobile = vw < 768;
       setIsMobile(mobile);
 
-      if (mobile) {
-        // Mobile = use the full viewport width, cap height generously.
+      if (fullscreen) {
+        // Fill the entire viewport, preserve aspect ratio.
+        let w = vw;
+        let h = w / ASPECT;
+        if (h > vh) {
+          h = vh;
+          w = h * ASPECT;
+        }
+        setBoxSize({ w, h });
+      } else if (mobile) {
         const availW = vw;
         const availH = vh - 140;
         let w = availW;
@@ -34,7 +43,6 @@ export default function DinoGame() {
         }
         setBoxSize({ w, h });
       } else {
-        // Desktop: scale up to fit, max native size.
         const availW = Math.min(vw - 64, 1200);
         const availH = vh - 260;
         let w = Math.min(availW, GAME_WIDTH * 1.4);
@@ -53,7 +61,31 @@ export default function DinoGame() {
       window.removeEventListener("resize", compute);
       window.removeEventListener("orientationchange", compute);
     };
+  }, [fullscreen]);
+
+  // Sync with native browser fullscreen state (handles ESC / system gestures).
+  useEffect(() => {
+    const onFsChange = () => {
+      if (!document.fullscreenElement) setFullscreen(false);
+    };
+    document.addEventListener("fullscreenchange", onFsChange);
+    return () => document.removeEventListener("fullscreenchange", onFsChange);
   }, []);
+
+  const toggleFullscreen = async () => {
+    try {
+      if (!fullscreen) {
+        await wrapRef.current?.requestFullscreen?.();
+        setFullscreen(true);
+      } else {
+        if (document.fullscreenElement) await document.exitFullscreen();
+        setFullscreen(false);
+      }
+    } catch {
+      // Fallback: CSS-only fullscreen if the API is unavailable.
+      setFullscreen((v) => !v);
+    }
+  };
 
   useEffect(() => {
     const best = Number(localStorage.getItem(BEST_KEY) || 0);
@@ -155,19 +187,39 @@ export default function DinoGame() {
     <div className="w-full flex flex-col items-center gap-3">
       <div
         ref={wrapRef}
-        className="relative rounded-lg overflow-hidden border border-border shadow-lg bg-background touch-none select-none"
-        style={{ width: boxSize.w, height: boxSize.h }}
+        className={
+          fullscreen
+            ? "relative overflow-hidden bg-background touch-none select-none flex items-center justify-center w-screen h-[100dvh]"
+            : "relative rounded-lg overflow-hidden border border-border shadow-lg bg-background touch-none select-none"
+        }
+        style={fullscreen ? undefined : { width: boxSize.w, height: boxSize.h }}
       >
         <canvas
           ref={canvasRef}
           width={GAME_WIDTH}
           height={GAME_HEIGHT}
-          className="block w-full h-full"
-          style={{ imageRendering: "pixelated" }}
+          className="block"
+          style={{ imageRendering: "pixelated", width: boxSize.w, height: boxSize.h }}
         />
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleFullscreen();
+          }}
+          onTouchEnd={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            toggleFullscreen();
+          }}
+          aria-label={fullscreen ? "Quitter le plein écran" : "Plein écran"}
+          className="absolute top-2 right-2 z-10 rounded-md bg-black/50 text-white text-xs px-3 py-1.5 backdrop-blur hover:bg-black/70"
+        >
+          {fullscreen ? "✕ Quitter" : "⛶ Plein écran"}
+        </button>
       </div>
 
-      {isMobile && (
+      {isMobile && !fullscreen && (
         <p className="text-sm text-center text-muted-foreground px-4">
           👆 Tape pour sauter · ⬇️ Glisse vers le bas pour t'accroupir
         </p>
