@@ -4,32 +4,46 @@ import { render } from "@/game/render";
 import { BIOMES, biomeForScore, blendBiomes } from "@/game/biomes";
 
 const BEST_KEY = "dino-best-score";
+const ASPECT = GAME_WIDTH / GAME_HEIGHT;
 
 export default function DinoGame() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const stateRef = useRef(createState(0));
   const [, setTick] = useState(0);
-  const [isPortrait, setIsPortrait] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [boxSize, setBoxSize] = useState<{ w: number; h: number }>({ w: GAME_WIDTH, h: GAME_HEIGHT });
 
-  // Detect portrait mobile (client-only to avoid SSR hydration mismatch)
+  // Responsive sizing: fit canvas into available viewport while preserving aspect ratio.
   useEffect(() => {
     const compute = () => {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      const portrait = w < 768 && h > w;
-      setIsPortrait(portrait);
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const mobile = vw < 768;
+      setIsMobile(mobile);
 
-      if (portrait) {
-        // Canvas is rendered in landscape (900x260) but rotated 90° via CSS.
-        // After rotation: visual width = GAME_HEIGHT, visual height = GAME_WIDTH.
-        const availW = w - 16;
-        const availH = h - 160; // leave room for header + hint
-        const scale = Math.min(availW / GAME_HEIGHT, availH / GAME_WIDTH);
-        setBoxSize({ w: GAME_HEIGHT * scale, h: GAME_WIDTH * scale });
+      if (mobile) {
+        // Mobile = fullscreen-ish, fit width, cap by height with room for header/hint.
+        const availW = vw - 16;
+        const availH = vh - 180;
+        let w = availW;
+        let h = w / ASPECT;
+        if (h > availH) {
+          h = availH;
+          w = h * ASPECT;
+        }
+        setBoxSize({ w, h });
       } else {
-        setBoxSize({ w: GAME_WIDTH, h: GAME_HEIGHT });
+        // Desktop: scale up to fit, max native size.
+        const availW = Math.min(vw - 64, 1200);
+        const availH = vh - 260;
+        let w = Math.min(availW, GAME_WIDTH * 1.4);
+        let h = w / ASPECT;
+        if (h > availH) {
+          h = availH;
+          w = h * ASPECT;
+        }
+        setBoxSize({ w, h });
       }
     };
     compute();
@@ -100,21 +114,40 @@ export default function DinoGame() {
     const onKeyUp = (e: KeyboardEvent) => {
       if (e.code === "ArrowDown") duck(stateRef.current, false);
     };
-    const onTouch = (e: TouchEvent) => {
+
+    // Touch controls: tap = jump, swipe down = duck (Subway-Surfers style).
+    let touchStartY = 0;
+    let touchStartT = 0;
+    const onTouchStart = (e: TouchEvent) => {
       e.preventDefault();
-      triggerJump();
+      touchStartY = e.touches[0].clientY;
+      touchStartT = Date.now();
+    };
+    const onTouchEnd = (e: TouchEvent) => {
+      e.preventDefault();
+      const dy = (e.changedTouches[0]?.clientY ?? touchStartY) - touchStartY;
+      const dt = Date.now() - touchStartT;
+      if (dy > 40 && dt < 500) {
+        // swipe down → duck briefly
+        duck(stateRef.current, true);
+        setTimeout(() => duck(stateRef.current, false), 450);
+      } else {
+        triggerJump();
+      }
     };
 
     window.addEventListener("keydown", onKeyDown);
     window.addEventListener("keyup", onKeyUp);
     const wrap = wrapRef.current!;
-    wrap.addEventListener("touchstart", onTouch, { passive: false });
+    wrap.addEventListener("touchstart", onTouchStart, { passive: false });
+    wrap.addEventListener("touchend", onTouchEnd, { passive: false });
 
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);
-      wrap.removeEventListener("touchstart", onTouch);
+      wrap.removeEventListener("touchstart", onTouchStart);
+      wrap.removeEventListener("touchend", onTouchEnd);
     };
   }, []);
 
@@ -129,31 +162,14 @@ export default function DinoGame() {
           ref={canvasRef}
           width={GAME_WIDTH}
           height={GAME_HEIGHT}
-          className="block"
-          style={
-            isPortrait
-              ? {
-                  imageRendering: "pixelated",
-                  width: GAME_WIDTH,
-                  height: GAME_HEIGHT,
-                  transform: `rotate(90deg) scale(${boxSize.h / GAME_WIDTH})`,
-                  transformOrigin: "top left",
-                  position: "absolute",
-                  top: 0,
-                  left: boxSize.w,
-                }
-              : {
-                  imageRendering: "pixelated",
-                  width: "100%",
-                  height: "100%",
-                }
-          }
+          className="block w-full h-full"
+          style={{ imageRendering: "pixelated" }}
         />
       </div>
 
-      {isPortrait && (
-        <p className="md:hidden text-sm text-center text-muted-foreground px-4">
-          👆 Touche l'écran pour faire sauter le dino
+      {isMobile && (
+        <p className="text-sm text-center text-muted-foreground px-4">
+          👆 Tape pour sauter · ⬇️ Glisse vers le bas pour t'accroupir
         </p>
       )}
     </div>
