@@ -23,7 +23,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <main className="min-h-[100dvh] bg-background text-foreground flex flex-col items-center justify-start md:justify-center px-3 sm:px-4 py-4 sm:py-8 gap-4 sm:gap-6">
+    <main className="min-h-[100dvh] bg-background text-foreground flex flex-col items-center justify-start md:justify-center px-0 sm:px-4 py-4 sm:py-8 gap-4 sm:gap-6">
       <header className="text-center max-w-2xl">
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">Dino Run</h1>
         <p className="mt-2 sm:mt-3 text-sm sm:text-base text-muted-foreground">
