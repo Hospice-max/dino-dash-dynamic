@@ -1,79 +1,34 @@
 # Dino Dash Dynamic
 
-A fast, dynamic endless-runner game where a dinosaur dodges obstacles and collects points. Designed for quick play sessions with progressively challenging levels and responsive controls.
+Un jeu de course sans fin rapide et dynamique où un dinosaure évite des obstacles et collecte des points. Conçu pour des sessions de jeu courtes avec des niveaux de difficulté progressifs et des commandes réactives.
 
-## Features
+## Fonctionnalités
 
-- Endless runner gameplay with procedural obstacle generation
-- Smooth, responsive controls
-- Score and high-score tracking
-- Multiple difficulty stages / dynamic speed scaling
-- Mobile-friendly controls (touch + keyboard support)
+- Gameplay de type "endless runner" avec génération procédurale d'obstacles
+- Contrôles fluides et réactifs
+- Suivi du score et du meilleur score
+- Plusieurs paliers de difficulté / montée en vitesse dynamique
+- Contrôles adaptés aux mobiles (écran tactile + clavier)
 
-## Stack (update to match the project)
+## Stack (mettez à jour selon le projet)
 
-- Languages: JavaScript / TypeScript, HTML, CSS
-- Frameworks: (e.g. Phaser, PixiJS, or plain Canvas)
-- Build tools: (e.g. npm, webpack, parcel)
+- Langages : JavaScript / TypeScript, HTML, CSS
+- Frameworks : (par exemple Phaser, PixiJS, ou Canvas pur)
+- Outils de build : (par exemple npm, webpack, parcel)
 
-## Getting started
+## Démarrage
 
-Prerequisites
+Prérequis
 
-- Node.js >= 14 (if the project uses a JS toolchain)
-- npm or yarn
+- Node.js >= 14 (si le projet utilise une chaîne d'outils JS)
+- npm ou yarn
 
-Install
+Installation
 
 ```bash
-# clone the repo
+# cloner le dépôt
 git clone https://github.com/Hospice-max/dino-dash-dynamic.git
 cd dino-dash-dynamic
 
-# install dependencies (if applicable)
+# installer les dépendances (si applicable)
 npm install
-```
-
-Run locally
-
-```bash
-# start dev server (example)
-npm run dev
-
-# or open index.html directly if it's a static site
-# open ./public/index.html in a browser
-```
-
-Build
-
-```bash
-# production build (example)
-npm run build
-```
-
-## Controls
-
-- Keyboard: Arrow keys / WASD to move/jump
-- Touch: Tap or on-screen buttons (mobile)
-
-(Adjust controls to match your implementation.)
-
-## Project structure
-
-- src/           Source code (game logic, assets, scenes)
-- public/        Static files and HTML entrypoint
-- assets/        Images, sprites, audio
-- docs/          Documentation and design notes
-- tests/         Unit/integration tests
-
-## Contributing
-
-Contributions welcome — please open an issue or submit a pull request. Include a short description of changes and add/update tests where appropriate.
-
-## License
-
-Specify your project license here (MIT, Apache-2.0, etc.)
-
-## Contact
-
-Maintainer: Hospice-max (https://github.com/Hospice-max)
