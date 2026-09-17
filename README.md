@@ -1,34 +1,76 @@
-# Dino Dash Dynamic
+# 🦖 Dino Dash Dynamic
 
-Un jeu de course sans fin rapide et dynamique où un dinosaure évite des obstacles et collecte des points. Conçu pour des sessions de jeu courtes avec des niveaux de difficulté progressifs et des commandes réactives.
+A fast-paced endless runner where a dinosaur dodges obstacles, collects points, and pushes for a higher score.
 
-## Fonctionnalités
+Designed for short, engaging gameplay sessions, **Dino Dash Dynamic** combines responsive controls, procedural obstacle generation, and progressively increasing difficulty to keep the challenge dynamic.
 
-- Gameplay de type "endless runner" avec génération procédurale d'obstacles
-- Contrôles fluides et réactifs
-- Suivi du score et du meilleur score
-- Plusieurs paliers de difficulté / montée en vitesse dynamique
-- Contrôles adaptés aux mobiles (écran tactile + clavier)
+## 🎮 Features
 
-## Stack (mettez à jour selon le projet)
+* 🏃 Endless runner gameplay with procedurally generated obstacles
+* ⚡ Smooth and responsive controls
+* 🏆 Score and high-score tracking
+* 📈 Progressive difficulty with dynamically increasing speed
+* 📱 Mobile-friendly controls with touch and keyboard support
+* 🎯 Designed for quick and replayable gaming sessions
 
-- Langages : JavaScript / TypeScript, HTML, CSS
-- Frameworks : (par exemple Phaser, PixiJS, ou Canvas pur)
-- Outils de build : (par exemple npm, webpack, parcel)
+## 🌐 Live Demo
 
-## Démarrage
+Play the game directly in your browser:
 
-Prérequis
+**https://dino-landscape-dash.lovable.app/**
 
-- Node.js >= 14 (si le projet utilise une chaîne d'outils JS)
-- npm ou yarn
+## 🛠️ Tech Stack
 
-Installation
+* **JavaScript / TypeScript**
+* **HTML5**
+* **CSS3**
+* **Canvas-based game rendering**
+* **Node.js / npm**
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+* **Node.js >= 14**
+* **npm** or **yarn**
+
+### Installation
+
+Clone the repository:
 
 ```bash
-# cloner le dépôt
 git clone https://github.com/Hospice-max/dino-dash-dynamic.git
 cd dino-dash-dynamic
+```
 
-# installer les dépendances (si applicable)
+Install the dependencies:
+
+```bash
 npm install
+```
+
+### Run Locally
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Then open the local URL provided by the development server in your browser.
+
+## 🎯 Gameplay
+
+The objective is simple: **survive as long as possible and achieve the highest score**.
+
+As the game progresses, the dinosaur moves faster and obstacles become increasingly challenging to avoid. Use keyboard controls on desktop or touch controls on mobile to jump and react to incoming obstacles.
+
+## 📱 Responsive Experience
+
+Dino Dash Dynamic is designed to work across desktop and mobile devices, providing responsive gameplay with both keyboard and touch interactions.
+
+## 📄 License
+
+This project is open source and available under the license included in the repository.
