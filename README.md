@@ -70,7 +70,3 @@ As the game progresses, the dinosaur moves faster and obstacles become increasin
 ## 📱 Responsive Experience
 
 Dino Dash Dynamic is designed to work across desktop and mobile devices, providing responsive gameplay with both keyboard and touch interactions.
-
-## 📄 License
-
-This project is open source and available under the license included in the repository.
